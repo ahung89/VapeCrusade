@@ -34,6 +34,6 @@ end
 
 function Bullet:handleCollisions()
   for shape, delta in pairs(HC.collisions(self.collider)) do
-    if shape.parent == player then self.remove = true end
+    if shape.parent == player or shape.type == "levelCollider" then self.remove = true end
   end
 end
