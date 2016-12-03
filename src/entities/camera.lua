@@ -3,6 +3,7 @@ Camera = Object:extend()
 function Camera:new()
   self.x = 0
   self.y = 0
+  self.mode = "fixed"
 end
 
 function Camera:set()
@@ -22,4 +23,8 @@ end
 
 function Camera:unset()
   love.graphics.pop()
+end
+
+function Camera:setMode(mode)
+  self.mode = mode
 end

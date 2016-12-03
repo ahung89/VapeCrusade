@@ -1,8 +1,8 @@
 Player = Object:extend()
 
 function Player:new()
-  self.x = -30
-  self.y = -30
+  self.x = 100
+  self.y = 100
   self.health = 100
   self.img = Assets.yoshi_sprite
   self.xSpeed = 300
@@ -32,6 +32,8 @@ function Player:update(dt)
   
   self.collider:moveTo(self.x, self.y)
   
+  --print("location:", self.x, self.y)
+  
   self.vape:update(dt)
 end
 
@@ -47,4 +49,9 @@ end
 function Player:draw(dt)
   love.graphics.draw(Assets.yoshi_sprite, player.x, player.y, 0, .1, .1)
   self.vape:draw()
+end
+
+function Player:setPosition(pos)
+  self.x = pos.x
+  self.y = pos.y
 end

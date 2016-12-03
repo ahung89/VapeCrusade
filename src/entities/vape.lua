@@ -37,7 +37,7 @@ function Vape:update(dt)
 end
 
 function Vape:draw()
-  love.graphics.print("supp... mouse pos bay"..love.mouse.getX()..","..love.mouse.getY(), 0, 0)
+  --love.graphics.print("supp... mouse pos bay"..love.mouse.getX()..","..love.mouse.getY(), 0, 0)
   for i, v in ipairs(self.particles) do
     v:draw()
   end
