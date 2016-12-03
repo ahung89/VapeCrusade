@@ -24,8 +24,15 @@ function Enemy:update(dt)
     self:fire()
   --end
   
-  for _, b in pairs(self.bullets) do
-    b:update(dt)
+  local i = 1
+
+  while i <= table.getn(self.bullets) do
+    self.bullets[i]:update(dt)
+    if self.bullets[i].remove then
+      table.remove(self.bullets, i)
+    else
+      i = i + 1
+    end
   end
 end
 
