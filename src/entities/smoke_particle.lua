@@ -12,17 +12,29 @@ function SmokeParticle:new(x, y, dir)
   self.dx = dir.x
   self.dy = dir.y
   self.da = math.random(.1, .2)
-  self.ds = math.random(5, 6)
+  self.ds = math.random(.005, .0075)
   self.radius = math.random(22, 33)
+  self.scale = 1
+  self.collider = HC.circle(x, y, self.radius)
+  self.collider["parent"] = self
 end
 
 function SmokeParticle:update(dt)
   self.x = self.x + self.dx * dt
   self.y = self.y + self.dy * dt
   self.a = self.a - self.da * dt
-  self.radius = self.radius - self.ds * dt
+  self.scale = self.scale - self.ds * dt
+  self.radius = self.radius * self.scale
   if self.a <= 0 or self.radius <= 0 then
     self.remove = true
+  end
+  
+  self.collider:moveTo(self.x, self.y)
+  
+  if self.scale < 0.02 then
+    self.remove = true
+  else
+    self.collider:scale(self.scale)
   end
 end
 
@@ -30,8 +42,5 @@ function SmokeParticle:draw()
   love.graphics.setColor(192, 192, 192, 200)
   love.graphics.circle("fill", self.x, self.y, self.radius)
   love.graphics.setColor(255, 255, 255)
-end
-
-function SmokeParticle:handleCollisions()
-  
+  self.collider:draw("line")
 end
