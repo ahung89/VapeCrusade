@@ -4,8 +4,8 @@ function Player:new()
   self.x = 0
   self.y = 0
   self.img = Assets.yoshi_sprite
-  self.xSpeed = 100
-  self.ySpeed = 100
+  self.xSpeed = 300
+  self.ySpeed = 300
 end
 
 function Player:update(dt)
