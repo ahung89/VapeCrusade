@@ -5,6 +5,7 @@ level = {}
 moved = false
 
 function level:enter()
+  require "src.entities.vape"
   require "src.entities.player"
   require "src.entities.camera"
   require "src.entities.enemy"

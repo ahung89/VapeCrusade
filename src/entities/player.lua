@@ -9,6 +9,8 @@ function Player:new()
   self.ySpeed = 300
   self.collider = HC.rectangle(self.x, self.y, 40, 40)
   self.collider["parent"] = self
+  
+  self.vape = Vape()
 end
 
 function Player:update(dt)  
@@ -29,6 +31,8 @@ function Player:update(dt)
   self.y = self.y + yVelocity * dt
   
   self.collider:moveTo(self.x, self.y)
+  
+  self.vape:update(dt)
 end
 
 function Player:checkWallCollisions(xOffset, yOffset)
@@ -42,4 +46,5 @@ end
 
 function Player:draw(dt)
   love.graphics.draw(Assets.yoshi_sprite, player.x, player.y, 0, .1, .1)
+  self.vape:draw()
 end
