@@ -2,6 +2,7 @@
 Object = require "deps.classic"
 Gamestate = require "deps.gamestate"
 Assets = require "deps.cargo".init("assets")
+TilemapLoader = require "deps.AdvTileLoader.loader"
 
 -- lowercase because fuck it
 lume = require "deps.lume"

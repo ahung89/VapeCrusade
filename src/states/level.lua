@@ -9,6 +9,14 @@ function level:enter()
   enemy = Enemy(20, 20)
   camera = Camera()
   enemies = {enemy}
+  
+  self:loadTilemap()
+end
+
+function level:loadTilemap()
+  TilemapLoader.path = "assets/tilemap/"
+  self.map = TilemapLoader.load("testmap.tmx")
+  self.map.useSpriteBatch = false
 end
 
 function level:update(dt)
@@ -24,12 +32,15 @@ end
 function level:draw()
   camera:set()
   
+  self.map:setDrawRange(0,0,love.graphics.getWidth(), love.graphics.getHeight())
+  self.map:draw()
+  
   player:draw(dt)
   
   for _, e in pairs(enemies) do
     e:draw(dt)
   end
-  
+    
   camera:unset()
 end
 
