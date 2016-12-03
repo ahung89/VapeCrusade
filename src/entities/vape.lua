@@ -1,19 +1,13 @@
+require "src.entities.smoke_particle"
+
 Vape = Object:extend()
 
 function Vape:new()
   self.firing = true
   
-  self.smokePs = love.graphics.newParticleSystem(Assets.smoke, 100)
-  self.smokePs:setParticleLifetime(.2, .4)
-  self.smokePs:setDirection(1.5 * math.pi)
-  self.smokePs:setSpread(math.pi/3)
-  self.smokePs:setLinearAcceleration(0, -400)
-  self.smokePs:setLinearDamping(50)
-  self.smokePs:setSpin(0, 30)
-  self.smokePs:setColors(82, 127, 57, 255)
-  self.smokePs:setRotation(0, 2 * math.pi)
-  self.smokePs:setInsertMode("random")
-  self.smokePs:setSizes(1, 0)
+  self.particles = {}
+  self.timeBetweenParticles = .05
+  self.nextParticleTime = 0
 end
 
 function Vape:fire()
@@ -21,13 +15,30 @@ function Vape:fire()
 end
 
 function Vape:update(dt)
-  --if not self.firing then return end
+  if not self.firing then return end
+  
+  local dir = vector(0, 0)
+  if love.mouse.isDown(1) and love.timer.getTime() > self.nextParticleTime then
+    local dir = vector(love.mouse.getX() - love.graphics.getWidth() / 2, love.mouse.getY() - love.graphics.getHeight() / 2):normalized()
+    table.insert(self.particles, SmokeParticle(player.x, player.y, dir))
+    self.nextParticleTime = love.timer.getTime() + self.timeBetweenParticles
+  end
    
-  self.smokePs:setPosition(player.x + math.random(-2, 2), player.y + 10)
-  self.smokePs:update(dt)
-  self.smokePs:emit(1)
+  local i = 1
+   
+  while i <= table.getn(self.particles) do
+    self.particles[i]:update(dt)
+    if self.particles[i].remove then
+      table.remove(self.particles, i)
+    else
+      i = i + 1
+    end
+  end
 end
 
 function Vape:draw()
-  love.graphics.draw(self.smokePs, 0, 0, 0, 1, 1)
+  love.graphics.print("supp... mouse pos bay"..love.mouse.getX()..","..love.mouse.getY(), 0, 0)
+  for i, v in ipairs(self.particles) do
+    v:draw()
+  end
 end
