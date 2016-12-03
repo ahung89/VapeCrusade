@@ -1,14 +1,9 @@
-require "player"
-assets = require("deps/cargo").init("assets")
+-- libs
+Object = require "deps.classic"
+Gamestate = require "deps.gamestate"
+Assets = require "deps.cargo".init("assets")
 
 function love.load()
-  --player.move()
-end
-
-function love.update(dt)
-  player:update(dt);
-end
-
-function love.draw(dt)
-  love.graphics.draw(assets.yoshi_sprite, player.x, player.y, 0, .1, .1)
+  Gamestate.registerEvents()
+  Gamestate.switch(require "src.states.level")
 end
