@@ -7,9 +7,16 @@ function Room:new(numEnemies, x, y, isHall, width, height)
   self.x = x * TILE_SIZE * GLOBAL_SCALE
   self.y = y * TILE_SIZE * GLOBAL_SCALE
   self.isHall = isHall
-  self.width = width or ROOM_WIDTH * TILE_SIZE * GLOBAL_SCALE
-  self.height = height or ROOM_HEIGHT * TILE_SIZE * GLOBAL_SCALE
+  if isHall then
+    self.width  = width * SCALED_TILE_SIZE
+    self.height = height * SCALED_TILE_SIZE
+  else
+    self.width = ROOM_WIDTH * SCALED_TILE_SIZE
+    self.height = ROOM_HEIGHT * SCALED_TILE_SIZE
+  end
+  
   self.enemies = {}
+  self:placeEnemies()
 end
 
 function Room:containsPlayer(x, y)
@@ -26,14 +33,20 @@ end
 
 function Room:placeEnemies()
   self.enemies = {}
-  for i=1, self.numEnemies, 1 do
-    table.insert(self.enemies, Enemy(math.random(self.x + TILE_SIZE * GLOBAL_SCALE, self.x + self.width + TILE_SIZE * GLOBAL_SCALE),
-        math.random(self.y + TILE_SIZE * GLOBAL_SCALE, self.y + self.width + TILE_SIZE * GLOBAL_SCALE)))
+  for i=1, 3, 1 do
+    table.insert(self.enemies, Enemy(math.random(self.x + SCALED_TILE_SIZE, self.x + self.width),
+        math.random(self.y + SCALED_TILE_SIZE, self.y + self.height)))
   end
 end
 
 function Room:update(dt)
   for _, e in pairs(self.enemies) do
     e:update(dt)
+  end
+end
+
+function Room:draw()
+  for _, e in pairs(self.enemies) do
+    e:draw()
   end
 end

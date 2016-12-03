@@ -27,9 +27,9 @@ function SmokeParticle:update(dt)
 end
 
 function SmokeParticle:draw()
-  --love.graphics.setColor(192, 192, 192)
+  love.graphics.setColor(192, 192, 192, 200)
   love.graphics.circle("fill", self.x, self.y, self.radius)
-  --love.graphics.setColor(0, 0, 0)
+  love.graphics.setColor(255, 255, 255)
 end
 
 function SmokeParticle:handleCollisions()

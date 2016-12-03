@@ -61,7 +61,7 @@ function Enemy:canSeePlayer()
 end
 
 function Enemy:draw()
-  love.graphics.draw(self.image, x, y)
+  love.graphics.draw(self.image, self.x, self.y)
   
   for _, b in pairs(self.bullets) do
     b:draw()

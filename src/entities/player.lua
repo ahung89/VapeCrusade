@@ -31,9 +31,7 @@ function Player:update(dt)
   self.y = self.y + yVelocity * dt
   
   self.collider:moveTo(self.x, self.y)
-  
-  --print("location:", self.x, self.y)
-  
+    
   self.vape:update(dt)
 end
 

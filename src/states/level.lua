@@ -16,7 +16,7 @@ function level:enter()
   enemy = Enemy(20, 20)
   camera = Camera()
   roomManager = RoomManager()
-  enemies = {enemy}
+  enemies = {}
   
   self:loadTilemap()
   self:generateColliders()
@@ -56,7 +56,7 @@ function level:update(dt)
     camera:setPosition(player.x - love.graphics.getWidth() / 2, player.y - love.graphics.getHeight() / 2)
   end
   
-  roomManager:update()
+  roomManager:update(dt)
 end
 
 function level:draw()
@@ -71,6 +71,8 @@ function level:draw()
   for _, e in pairs(enemies) do
     e:draw(dt)
   end
+    
+  roomManager:draw()  
     
   camera:unset()
 end
