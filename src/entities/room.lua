@@ -13,11 +13,15 @@ function Room:new(numEnemies, x, y, isHall, width, height)
 end
 
 function Room:containsPlayer(x, y)
-  return x >= self.x and x < self.x + self.width and y >= self.y and self.y >= self.y + self.height
+  return x >= self.x and x < self.x + self.width and y > self.y and y <= self.y + self.height
 end
 
 function Room:getRoomCenter()
   return vector(self.x + self.width / 2, self.y + self.height / 2)
+end
+
+function Room:getCameraPoint()
+  return vector(self.x + 48, self.y + 48)
 end
 
 function Room:placeEnemies()

@@ -10,13 +10,25 @@ function RoomManager:new()
   self.currentRoom = self.rooms[1]
   
   local center = self.currentRoom:getRoomCenter()
+  local cameraPoint = self.currentRoom:getCameraPoint()
   player:setPosition(center)
-  camera:setPosition(self.currentRoom.x + 48, self.currentRoom.y + 48)
+  camera:setPosition(cameraPoint.x, cameraPoint.y)
 end
 
-function RoomManager:updateCurrentRoom()
-  for _, room in pairs(self.rooms) do
-    if room:containsPlayer(player.x, player.y) then
+function RoomManager:update()
+  for i, room in pairs(self.rooms) do
+    if i == 12 then
+      print("player pos:"..player.x..","..player.y)
+      print("room location:"..room.x..","..room.y..","..(room.x + room.width)..","..(room.y + room.height))
+      if room:containsPlayer(player.x, player.y) then
+        print("room contains player!")
+      else
+        print("room doens't contain player :(")
+      end
+    end
+    
+    if room:containsPlayer(player.x, player.y) and room ~= self.currentRoom then
+      print("room "..i.." contains player! swapping")
       self:swapRoom(room)
       break
     end
@@ -29,10 +41,10 @@ function RoomManager:swapRoom(room)
 end
 
 function RoomManager:updateCamera(room)
-  if room.isHall then
+  if not room.isHall then
     camera:setMode("fixed")
-    local center= room:getCenter()
-    camera:setPosition(center.x, center.y) -- TODO: Pan
+    local camPoint= room:getCameraPoint()
+    camera:setPosition(camPoint.x, camPoint.y) -- TODO: Pan
   else
     camera:setMode("follow")
   end
