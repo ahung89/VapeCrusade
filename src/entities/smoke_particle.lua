@@ -44,3 +44,16 @@ function SmokeParticle:draw()
   love.graphics.setColor(255, 255, 255)
   self.collider:draw("line")
 end
+
+function SmokeParticle:handleCollision()
+  for shape, delta in pairs(HC.collisions(self.collider)) do
+    if shape.type == "levelCollider" then 
+      self.remove = true 
+    end
+    
+    if shape.type == "enemy" then
+      shape.parent:makeHigh()
+      self.remove = true
+    end
+  end
+end

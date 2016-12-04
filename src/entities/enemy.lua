@@ -13,6 +13,9 @@ function Enemy:new(x, y)
   self.image = Assets.goomba
   self.highnessLevel = 0
   self.bullets = {}
+  self.collider = HC.rectangle(self.x, self.y, 40, 40)
+  self.collider.type = "enemy"
+  self.collider.parent = self
 end
 
 function Enemy:isOnScreen()
@@ -54,6 +57,7 @@ end
 
 function Enemy:makeHigh()
   -- change animations
+  self.highnessLevel = self.highnessLevel + 1
 end
 
 function Enemy:canSeePlayer()
@@ -62,6 +66,7 @@ end
 
 function Enemy:draw()
   love.graphics.draw(self.image, self.x, self.y)
+  self.collider:draw("line")
   
   for _, b in pairs(self.bullets) do
     b:draw()

@@ -34,10 +34,8 @@ function level:generateColliders()
   
   for x, y, tile in layer:iterate() do
     if layer:get(x, y).properties.collider then
-      local rect = HC.rectangle(x * SCALED_TILE_SIZE, y * SCALED_TILE_SIZE,
+      local rect = HC.rectangle(x * SCALED_TILE_SIZE + SCALED_TILE_SIZE/2, y * SCALED_TILE_SIZE + SCALED_TILE_SIZE / 2,
           SCALED_TILE_SIZE, SCALED_TILE_SIZE)
-      --print("player is at "..player.x..", "..player.y)
-      --print("making collider at "..(x * SCALED_TILE_SIZE)..", "..(y * SCALED_TILE_SIZE))
       rect.type = "levelCollider"
       table.insert(self.colliders, rect)
       -- TODO: generate a fixture so I can use World:rayCast
@@ -70,6 +68,10 @@ function level:draw()
   
   for _, e in pairs(enemies) do
     e:draw(dt)
+  end
+  
+  for _, c in pairs(self.colliders) do
+    c:draw("line")
   end
     
   roomManager:draw()  

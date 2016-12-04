@@ -24,6 +24,8 @@ function Vape:update(dt)
     self.nextParticleTime = love.timer.getTime() + self.timeBetweenParticles
   end
    
+  self:handleSmokeCollisions()
+   
   local i = 1
    
   while i <= table.getn(self.particles) do
@@ -40,5 +42,11 @@ function Vape:draw()
   --love.graphics.print("supp... mouse pos bay"..love.mouse.getX()..","..love.mouse.getY(), 0, 0)
   for i, v in ipairs(self.particles) do
     v:draw()
+  end
+end
+
+function Vape:handleSmokeCollisions()
+  for i, v in ipairs(self.particles) do
+    v:handleCollision()
   end
 end
