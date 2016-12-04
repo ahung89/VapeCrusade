@@ -1,5 +1,5 @@
 TILE_SIZE = 32
-COLLISION_CHECK_DISTANCE = 5
+COLLISION_CHECK_DISTANCE = 8
 GLOBAL_SCALE = 3
 SCALED_TILE_SIZE = TILE_SIZE * GLOBAL_SCALE
 
@@ -84,9 +84,9 @@ function level:draw()
     e:draw(dt)
   end
   
-  for _, c in pairs(self.colliders) do
-    c:draw("line")
-  end
+  --for _, c in pairs(self.colliders) do
+    --c:draw("line")
+  --end
     
   roomManager:draw()  
   

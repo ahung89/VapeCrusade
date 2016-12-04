@@ -7,6 +7,7 @@ function Player:new()
   self.xSpeed = 300
   self.ySpeed = 300
   self.collider = HC.rectangle(self.x + 52, self.y + 60, 36 * GLOBAL_SCALE - 65, 36 * GLOBAL_SCALE - 15)
+  self.boxCastCollider = HC.rectangle(self.x + 52, self.y + 60, 36 * GLOBAL_SCALE - 65, 36 * GLOBAL_SCALE - 15)
   self.collider["parent"] = self
   self.anim_image = Assets.mary_jane
   self:setUpAnimations()
@@ -20,7 +21,7 @@ function Player:setUpAnimations()
   self.walkForward = anim8.newAnimation(g("1-7", 1), .1)
   self.walkBackward = anim8.newAnimation(g("1-7", 2), .1)
   self.walkLeft = anim8.newAnimation(g("1-7", 3), .1)
-  self.walkRight = anim8.newAnimation(g("1-7", 3), .1)
+  self.walkRight = anim8.newAnimation(g("1-7", 4), .1)
   
   self.currentAnim = self.idle
 end
@@ -59,7 +60,11 @@ function Player:update(dt)
 end
 
 function Player:checkWallCollisions(x, y)
-  for shape, delta in pairs(HC.collisions(HC.rectangle(x, y, 36 * GLOBAL_SCALE - 78, 36 * GLOBAL_SCALE - 28))) do -- delete this collider later
+  local x1, y1, x2, y2 = self.boxCastCollider:bbox()
+  local width = x2 - x1
+  local height = y2 - y1
+  self.boxCastCollider:moveTo(x + width / 2, y + height / 2)
+  for shape, delta in pairs(HC.collisions(self.boxCastCollider)) do
     if shape.type == "levelCollider" then
       return true
     end
@@ -70,11 +75,16 @@ end
 function Player:draw(dt)
   self.currentAnim:draw(self.anim_image, self.x, self.y, 0, GLOBAL_SCALE, GLOBAL_SCALE)
   self.vape:draw()
-  self.collider:draw("line")
+  --self.collider:draw("line")
 end
 
 function Player:setPosition(pos)
   self.x = pos.x
   self.y = pos.y
   self.collider:moveTo(self.x, self.y)
+end
+
+function Player:damagePlayer()
+  self.health = self.health - 1
+  -- self:updateScoreUI()
 end

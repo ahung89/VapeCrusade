@@ -24,7 +24,8 @@ function Vape:update(dt)
   
   local dir = vector(0, 0)
   if love.mouse.isDown(1) and love.timer.getTime() > self.nextParticleTime then
-    local dir = vector(love.mouse.getX() - love.graphics.getWidth() / 2, love.mouse.getY() - love.graphics.getHeight() / 2):normalized()
+    local playerScreenPos = vector(player.x - camera.x, player.y - camera.y)
+    local dir = vector(love.mouse.getX() - playerScreenPos.x, love.mouse.getY() - playerScreenPos.y):normalized()
     table.insert(self.particles, SmokeParticle(self.x, self.y, dir))
     self.nextParticleTime = love.timer.getTime() + self.timeBetweenParticles
   end

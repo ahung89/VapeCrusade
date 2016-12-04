@@ -89,7 +89,6 @@ end
 
 function Enemy:draw()
   self.anim:draw(self.anim_image, self.x, self.y, 0, GLOBAL_SCALE, GLOBAL_SCALE)
-  self.collider:draw("line")
   
   for _, b in pairs(self.bullets) do
     b:draw()
