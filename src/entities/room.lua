@@ -58,7 +58,7 @@ end
 
 function Room:getHighModifier()
   if self.numEnemies == 0 then
-    return 1
+    return 0
   end
   return self.highEnemies / self.numEnemies
 end

@@ -10,22 +10,29 @@ function Enemy:new(x, y)
   self.visionRange = 30
   self.nextShotTime = 0
   self.timeBetweenShots = 1
-  self.image = Assets.goomba
   self.highnessLevel = 0
   self.bullets = {}
   self.collider = HC.rectangle(self.x, self.y, 40, 40)
   self.collider.type = "enemy"
   self.collider.parent = self
+  self.baked = false
+  self.anim_image = Assets.henchmen
+  self:setUpAnimations()
 end
 
-function Enemy:isOnScreen()
+function Enemy:setUpAnimations()
+  local g = anim8.newGrid(36, 36, self.anim_image:getWidth(), self.anim_image:getHeight())
+  self.shootLeft = anim8.newAnimation(g("2-3", 5), .3)
+  self.shootRight = anim8.newAnimation(g("2-3", 6), .3)
+  self.dance = anim8.newAnimation(g("3-5", 4), .25)
   
+  self.anim = self.shootLeft
 end
 
 function Enemy:update(dt)
-  --if lume.distance(self.x, self.y, player.x, player.y) <= self.visionRange then
+  if not self.baked then
     self:fire()
-  --end
+  end
   
   local i = 1
 
@@ -37,6 +44,8 @@ function Enemy:update(dt)
       i = i + 1
     end
   end
+  
+  self.anim:update(dt)
 end
 
 function Enemy:canSeePlayer()
@@ -49,6 +58,12 @@ function Enemy:fire()
   self.nextShotTime = love.timer.getTime() + self.timeBetweenShots
   local toPlayer = vector(player.x - self.x, player.y - self.y):normalized()
   table.insert(self.bullets, self:getBullet(toPlayer))
+  
+  if toPlayer.x <= 0 then
+    self.anim = self.shootLeft
+  else
+    self.anim = self.shootRight
+  end
 end
 
 function Enemy:getBullet(toPlayer)
@@ -61,6 +76,11 @@ function Enemy:makeHigh()
     self.room.highEnemies = self.room.highEnemies + 1
   end
   self.highnessLevel = self.highnessLevel + 1
+  
+  if self.highnessLevel >= 5 then
+    self.baked = true
+    self.anim = self.dance
+  end
 end
 
 function Enemy:canSeePlayer()
@@ -68,7 +88,7 @@ function Enemy:canSeePlayer()
 end
 
 function Enemy:draw()
-  love.graphics.draw(self.image, self.x, self.y)
+  self.anim:draw(self.anim_image, self.x, self.y, 0, GLOBAL_SCALE, GLOBAL_SCALE)
   self.collider:draw("line")
   
   for _, b in pairs(self.bullets) do

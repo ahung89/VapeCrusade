@@ -4,7 +4,6 @@ function Player:new()
   self.x = 100
   self.y = 100
   self.health = 100
-  self.img = Assets.yoshi_sprite
   self.xSpeed = 300
   self.ySpeed = 300
   self.collider = HC.rectangle(self.x, self.y, 40, 40)
