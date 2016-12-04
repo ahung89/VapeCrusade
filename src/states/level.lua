@@ -37,7 +37,7 @@ end
 
 function level:loadTilemap()
   TilemapLoader.path = "assets/tilemap/"
-  self.map = TilemapLoader.load("Level_Design.tmx")
+  self.map = TilemapLoader.load("Vape_Crusade_LD.tmx")
   self.map.useSpriteBatch = false
 end
 
@@ -46,7 +46,7 @@ function level:generateColliders()
   local layer = self.map("Walls")
   
   for x, y, tile in layer:iterate() do
-    if layer:get(x, y).properties.collider then
+    if layer:get(x, y).properties.Collision then
       local rect = HC.rectangle(x * SCALED_TILE_SIZE + SCALED_TILE_SIZE/2, y * SCALED_TILE_SIZE + SCALED_TILE_SIZE / 2,
           SCALED_TILE_SIZE, SCALED_TILE_SIZE)
       rect.type = "levelCollider"
