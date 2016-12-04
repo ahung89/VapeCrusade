@@ -3,7 +3,7 @@ Bullet = Object:extend()
 function Bullet:new(x, y, vec)
   self.x = x
   self.y = y
-  self.image = Assets.energy_orb
+  self.image = Assets.enemy_projectile_1
   self.speed = 200
   self.remove = false
   vec = vec * self.speed
@@ -29,7 +29,7 @@ function Bullet:removeIfOffscreen()
 end
 
 function Bullet:draw()
-  love.graphics.draw(self.image, self.x, self.y)
+  love.graphics.draw(self.image, self.x, self.y, GLOBAL_SCALE, GLOBAL_SCALE)
 end
 
 function Bullet:handleCollisions()

@@ -14,5 +14,5 @@ HC = require "deps.HC"
 function love.load()
   math.randomseed(love.timer.getTime())
   Gamestate.registerEvents()
-  Gamestate.switch(require "src.states.level")
+  Gamestate.switch(require "src.states.intro")
 end
