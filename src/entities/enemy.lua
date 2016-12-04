@@ -95,3 +95,8 @@ function Enemy:draw()
   end
 end
 
+function Enemy:clearBullets()
+  for k in pairs(self.bullets) do
+    self.bullets[k] = nil
+  end
+end

@@ -3,11 +3,13 @@ ROOM_HEIGHT = 7
 
 Room = Object:extend()
 
-function Room:new(numEnemies, x, y, isHall, width, height)
+function Room:new(numEnemies, x, y, isHall, width, height, hallWithLeftRoom, hallWithRightRoom)
   self.numEnemies = numEnemies
   self.highEnemies = 0
   self.x = x * TILE_SIZE * GLOBAL_SCALE
   self.y = y * TILE_SIZE * GLOBAL_SCALE
+  self.hallWithLeftRoom = hallWithLeftRoom
+  self.hallWithRightRoom = hallWithRightRoom
   self.isHall = isHall
   if isHall then
     self.width  = width * SCALED_TILE_SIZE
@@ -36,8 +38,8 @@ end
 function Room:placeEnemies()
   self.enemies = {}
   for i=1, self.numEnemies, 1 do
-    local enemy = Enemy(math.random(self.x + SCALED_TILE_SIZE, self.x + self.width - SCALED_TILE_SIZE),
-        math.random(self.y + SCALED_TILE_SIZE, self.y + self.height - SCALED_TILE_SIZE))
+    local enemy = Enemy(math.random(self.x + SCALED_TILE_SIZE * 2, self.x + self.width - SCALED_TILE_SIZE * 2),
+        math.random(self.y + SCALED_TILE_SIZE * 2, self.y + self.height - SCALED_TILE_SIZE * 2))
     enemy.room = self
     table.insert(self.enemies, enemy)
     

@@ -12,6 +12,7 @@ anim8 = require "deps.anim8"
 HC = require "deps.HC"
 
 function love.load()
+  math.randomseed(love.timer.getTime())
   Gamestate.registerEvents()
   Gamestate.switch(require "src.states.level")
 end

@@ -31,6 +31,10 @@ function RoomManager:draw()
 end
 
 function RoomManager:swapRoom(room)
+  for k in pairs(self.currentRoom.enemies) do
+    self.currentRoom.enemies[k]:clearBullets()
+  end
+  player.vape:clearParticles()
   self.currentRoom = room
   self:updateCamera(room)
 end

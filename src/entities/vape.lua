@@ -23,7 +23,7 @@ function Vape:update(dt)
   self.y = player.y + 50
   
   local dir = vector(0, 0)
-  if love.mouse.isDown(1) and love.timer.getTime() > self.nextParticleTime then
+  if player.alive and love.mouse.isDown(1) and love.timer.getTime() > self.nextParticleTime then
     local playerScreenPos = vector(player.x - camera.x, player.y - camera.y)
     local dir = vector(love.mouse.getX() - playerScreenPos.x, love.mouse.getY() - playerScreenPos.y):normalized()
     table.insert(self.particles, SmokeParticle(self.x, self.y, dir))
@@ -53,5 +53,11 @@ end
 function Vape:handleSmokeCollisions()
   for i, v in ipairs(self.particles) do
     v:handleCollision()
+  end
+end
+
+function Vape:clearParticles()
+  for i in pairs(self.particles) do
+    self.particles[i] = nil
   end
 end

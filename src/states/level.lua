@@ -8,6 +8,7 @@ moved = false
 
 function level:enter()
   require "src.entities.vape"
+  require "src.ui.health_bar"
   require "src.entities.player"
   require "src.entities.camera"
   require "src.entities.enemy"
@@ -63,7 +64,18 @@ function level:update(dt)
   end
   
   if camera.mode == "follow" then
-    camera:setPosition(player.x - love.graphics.getWidth() / 2, player.y - love.graphics.getHeight() / 2)
+    local x = player.x - love.graphics.getWidth() / 2
+    local y = player.y - love.graphics.getHeight() / 2
+    
+    if roomManager.currentRoom.hallWithLeftRoom then
+      x = math.max(x, roomManager.currentRoom.x + SCALED_TILE_SIZE / 2)
+    end
+    
+    if roomManager.currentRoom.hallWithRightRoom then
+      x = math.min(x, roomManager.currentRoom.x + roomManager.currentRoom.width - love.graphics.getWidth() + SCALED_TILE_SIZE / 2)
+    end
+    
+    camera:setPosition(x, y)
   end
   
   roomManager:update(dt)
