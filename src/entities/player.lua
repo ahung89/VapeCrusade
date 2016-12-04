@@ -15,6 +15,7 @@ function Player:new()
   
   self.vape = Vape()
   self.healthBar = HealthBar()
+  self.smokeMeter = SmokeMeter()
 end
 
 function Player:setUpAnimations()
@@ -36,6 +37,8 @@ function Player:update(dt)
   local xVelocity = 0
   local yVelocity = 0
   local x1, y1, x2, y2 = self.collider:bbox()
+  
+  self.smokeMeter:update(dt)
   
   if love.keyboard.isDown("a", "left") and not self:checkWallCollisions(x1 - COLLISION_CHECK_DISTANCE, y1) then
     xVelocity = -self.xSpeed
@@ -81,6 +84,7 @@ function Player:draw(dt)
   self.currentAnim:draw(self.anim_image, self.x, self.y, 0, GLOBAL_SCALE, GLOBAL_SCALE)
   self.vape:draw()
   self.healthBar:draw()
+  self.smokeMeter:draw()
   --self.collider:draw("line")
 end
 
