@@ -26,7 +26,11 @@ function love.mousereleased()
   local vape = player.vape 
   vape.mostRecentFraction = smokinessFraction
   if smokinessFraction > 0 then
-    vape.emittingSmoke = true
+    if not vape.emittingSmoke then
+      vape.emittingSmoke = true
+      love.audio.stop(Assets.audio.exhale)
+      love.audio.play(Assets.audio.exhale)
+    end
     vape.endSmokeTime = love.timer.getTime() + vape.maxSmokeEmissionTime * smokinessFraction
     player.smokeMeter:resetSmokiness()
     vape.nextParticleTime = 0

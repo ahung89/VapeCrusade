@@ -32,10 +32,18 @@ end
 
 function RoomManager:swapRoom(room)
   for k in pairs(self.currentRoom.enemies) do
-    self.currentRoom.enemies[k]:clearBullets()
+    local enemy = self.currentRoom.enemies[k]
+    enemy:clearBullets()
   end
+  
   player.vape:clearParticles()
   self.currentRoom = room
+  
+  for k in pairs(self.currentRoom.enemies) do
+    local enemy = self.currentRoom.enemies[k]
+    enemy.nextShotTime = love.timer.getTime() + math.random(.2, .7)
+  end
+  
   self:updateCamera(room)
 end
 

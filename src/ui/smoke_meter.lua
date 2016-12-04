@@ -17,6 +17,10 @@ end
 
 function SmokeMeter:update(dt)
   if love.mouse.isDown(1) and love.timer.getTime() > self.coughCooldownEnd then
+    if self.smokiness == 0 then
+      love.audio.stop(Assets.audio.inhale)
+      love.audio.play(Assets.audio.inhale)
+    end
     self.smokiness = math.min(self.maxSmokeLevel, self.smokiness + self.deltaSmokiness * dt)
   else
     self.smokiness = math.max(0, self.smokiness - self.deltaSmokiness * .5 * dt)

@@ -18,6 +18,7 @@ function Enemy:new(x, y)
   self.baked = false
   self.anim_image = Assets.henchmen
   self:setUpAnimations()
+  self.audioSource = love.audio.newSource("assets/audio/fire.wav", "static")
 end
 
 function Enemy:setUpAnimations()
@@ -55,7 +56,10 @@ end
 function Enemy:fire()
   if love.timer.getTime() < self.nextShotTime then return end
   
-  self.nextShotTime = love.timer.getTime() + self.timeBetweenShots
+  love.audio.stop(self.audioSource)
+  love.audio.play(self.audioSource)
+  
+  self.nextShotTime = love.timer.getTime() + math.random(.75, 1.25)
   local toPlayer = vector(player.x - self.x, player.y - self.y):normalized()
   table.insert(self.bullets, self:getBullet(toPlayer))
   
