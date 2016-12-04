@@ -23,6 +23,8 @@ function level:enter()
   self:loadTilemap()
   self:generateColliders()
   
+  self.canvas = love.graphics.newCanvas()
+  
   self.greyscaleShader = love.graphics.newShader[[
     extern number div;
     vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords) 
@@ -32,6 +34,17 @@ function level:enter()
       pixel.r = mix(average, pixel.r, div);
       pixel.g = mix(average, pixel.g, div);
       pixel.b = mix(average, pixel.b, div);
+      return pixel * color;
+    }
+  ]]
+  
+  self.trippyShader = love.graphics.newShader[[
+    extern float time;
+    vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords)
+    {
+      number yOffset = cos((texture_coords.x + time * 100) * 30) * .012;
+      texture_coords.y += yOffset;
+      vec4 pixel = Texel(texture, texture_coords);
       return pixel * color;
     }
   ]]
@@ -83,9 +96,17 @@ function level:update(dt)
 end
 
 function level:draw()
+  local highModifier = roomManager.currentRoom:getHighModifier()
+  
+  love.graphics.setCanvas(self.canvas) -- maybe could've done all scaling on this thing instead of global scale var
+
   camera:set()
   
-  self.greyscaleShader:send("div", roomManager.currentRoom:getHighModifier())
+  love.graphics.clear()
+  love.graphics.setBlendMode("alpha")
+  
+  self.greyscaleShader:send("div", highModifier)
+  self.trippyShader:send("time", love.timer.getTime()/1000) -- otherwise wave moves too quickly
   love.graphics.setShader(self.greyscaleShader) -- enable shader (TODO: only do this if required)
   
   self.map:setDrawRange(0,0,1000000, 1000000)
@@ -104,8 +125,17 @@ function level:draw()
   roomManager:draw()  
   
   love.graphics.setShader() -- unsets the shader
-    
   camera:unset()
+  love.graphics.setCanvas() -- had to move this after the camera setting block
+  
+  if highModifier == 1 then
+    love.graphics.setShader(self.trippyShader)
+    love.graphics.draw(self.canvas)
+    love.graphics.setShader()
+  else
+    love.graphics.draw(self.canvas)
+  end
+    
 end
 
 function level:spawnEnemies()

@@ -1,0 +1,1 @@
+DialogSystem = Object:new()
