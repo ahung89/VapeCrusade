@@ -12,7 +12,7 @@ function Enemy:new(x, y)
   self.timeBetweenShots = 1
   self.highnessLevel = 0
   self.bullets = {}
-  self.collider = HC.rectangle(self.x, self.y, 40, 40)
+  self.collider = HC.rectangle(self.x + 20, self.y, 36 * GLOBAL_SCALE - 40, 36 * GLOBAL_SCALE)
   self.collider.type = "enemy"
   self.collider.parent = self
   self.baked = false

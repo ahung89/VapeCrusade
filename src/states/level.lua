@@ -1,5 +1,5 @@
 TILE_SIZE = 32
-COLLISION_CHECK_DISTANCE = 10
+COLLISION_CHECK_DISTANCE = 5
 GLOBAL_SCALE = 3
 SCALED_TILE_SIZE = TILE_SIZE * GLOBAL_SCALE
 
@@ -30,7 +30,7 @@ function level:enter()
       pixel.r = mix(average, pixel.r, div);
       pixel.g = mix(average, pixel.g, div);
       pixel.b = mix(average, pixel.b, div);
-      return pixel;
+      return pixel * color;
     }
   ]]
 end

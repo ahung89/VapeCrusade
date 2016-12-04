@@ -3,6 +3,8 @@ require "src.entities.smoke_particle"
 Vape = Object:extend()
 
 function Vape:new()
+  self.x = 0
+  self.y= 0
   self.firing = true
   
   self.particles = {}
@@ -17,10 +19,13 @@ end
 function Vape:update(dt)
   if not self.firing then return end
   
+  self.x = player.x + 50
+  self.y = player.y + 50
+  
   local dir = vector(0, 0)
   if love.mouse.isDown(1) and love.timer.getTime() > self.nextParticleTime then
     local dir = vector(love.mouse.getX() - love.graphics.getWidth() / 2, love.mouse.getY() - love.graphics.getHeight() / 2):normalized()
-    table.insert(self.particles, SmokeParticle(player.x, player.y, dir))
+    table.insert(self.particles, SmokeParticle(self.x, self.y, dir))
     self.nextParticleTime = love.timer.getTime() + self.timeBetweenParticles
   end
    
@@ -39,7 +44,6 @@ function Vape:update(dt)
 end
 
 function Vape:draw()
-  --love.graphics.print("supp... mouse pos bay"..love.mouse.getX()..","..love.mouse.getY(), 0, 0)
   for i, v in ipairs(self.particles) do
     v:draw()
   end

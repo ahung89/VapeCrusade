@@ -42,7 +42,7 @@ function SmokeParticle:draw()
   love.graphics.setColor(192, 192, 192, 200)
   love.graphics.circle("fill", self.x, self.y, self.radius)
   love.graphics.setColor(255, 255, 255)
-  self.collider:draw("line")
+  --self.collider:draw("line")
 end
 
 function SmokeParticle:handleCollision()
