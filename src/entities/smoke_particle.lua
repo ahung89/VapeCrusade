@@ -67,7 +67,7 @@ function SmokeParticle:handleCollision()
       self.remove = true 
     end
     
-    if shape.type == "enemy" then
+    if shape.type == "enemy" and not shape.parent.baked then
       shape.parent:makeHigh()
       self.remove = true
     end

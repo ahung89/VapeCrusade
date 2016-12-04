@@ -52,7 +52,7 @@ function intro:update(dt)
 end
 
 function intro:draw()
-  self.anim:draw(self.anim_image, love.graphics.getWidth() / 2 - 100, love.graphics.getHeight() / 2 - 200, 0, 3, 3)
+  self.anim:draw(self.anim_image, love.graphics.getWidth() / 2 - 120, love.graphics.getHeight() / 2 - 200, 0, 3, 3)
   
   if self.idleAnimationStarted or self.currentStringIndex > table.getn(self.strings) then
     local currString = self.strings[self.currentStringIndex]
