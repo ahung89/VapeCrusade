@@ -59,6 +59,10 @@ function Room:draw()
 end
 
 function Room:getHighModifier()
+  if not player.alive then
+    return 0
+  end
+  
   if self.numEnemies == 0 then
     return 0
   end

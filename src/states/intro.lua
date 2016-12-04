@@ -6,13 +6,13 @@ function intro:enter()
   local g = anim8.newGrid(64, 64, self.anim_image:getWidth(), self.anim_image:getHeight())
   self.appear = anim8.newAnimation(g("1-7", 2, "1-4", 3), .1, startIdleAnimation)
   self.disappear = anim8.newAnimation(g("4-1", 3, "7-1", 2), .1, "pauseAtEnd")
-  self.idle = anim8.newAnimation(g("1-7", 1, "6-2", 1), .1)
+  self.idle = anim8.newAnimation(g("1-7", 1, "6-2", 1), .25)
   self.anim = self.appear
   self.strings = {
-    "Hey hey hey, Mary-Jane... you are the one born with the Vapor's Soul." ,
+    "Hey hey hey, Mary-Jane... you\nare the one born with the \nVapor's Soul." ,
     "I am the Ganja Goddess, and you...", 
-    "You are the one destined to return thought and thinking to this thought and thinkless world." ,
-    "Take this vape. Free your mind with its funky fumes, and the rest will follow....."
+    "You are the one destined to return thought\n and thinking to this world." ,
+    "Take this vape. Free your mind\nwith its funky fumes, and \nthe rest will follow....."
   }
   self.currentStringIndex = 1
   self.currentStringLength = string.len(self.strings[self.currentStringIndex])
@@ -34,6 +34,9 @@ function intro:enter()
       return pixel * color;
     }
   ]]
+  
+  self.font = love.graphics.newFont("assets/fonts/DisposableDroidBB.ttf", 35)
+  love.graphics.setFont(self.font)
 end
 
 function intro:update(dt)
@@ -71,7 +74,7 @@ function intro:draw()
     love.graphics.clear()
 
     self.trippyShader:send("time", love.timer.getTime()/1000)
-    love.graphics.print(currString:sub(1, self.currentStringOffset), 300, 400)
+    love.graphics.print(currString:sub(1, self.currentStringOffset), 250, 400)
     love.graphics.setCanvas()
     
     love.graphics.setShader(self.trippyShader)

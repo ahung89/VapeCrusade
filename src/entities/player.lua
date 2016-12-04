@@ -25,12 +25,14 @@ function Player:setUpAnimations()
   self.walkBackward = anim8.newAnimation(g("1-7", 2), .1)
   self.walkLeft = anim8.newAnimation(g("1-7", 3), .1)
   self.walkRight = anim8.newAnimation(g("1-7", 4), .1)
+  self.deathAnim = anim8.newAnimation(g("4-7", 9), .2, "pauseAtEnd")
   
   self.currentAnim = self.idle
 end
 
 function Player:update(dt) 
   self.vape:update(dt)
+  self.currentAnim:update(dt)
   
   if not self.alive then return end
   
@@ -63,8 +65,6 @@ function Player:update(dt)
   self.y = self.y + yVelocity * dt
   
   self.collider:moveTo(self.x + 54, self.y + 58)
-    
-  self.currentAnim:update(dt)
 end
 
 function Player:checkWallCollisions(x, y)
@@ -98,5 +98,6 @@ function Player:inflictHarm()
   self.health = self.health - 1
   if self.health <= 0 then
     self.alive = false
+    self.currentAnim = self.deathAnim
   end
 end
