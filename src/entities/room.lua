@@ -51,3 +51,7 @@ function Room:draw()
     e:draw()
   end
 end
+
+function Room:getHighModifier()
+  
+end

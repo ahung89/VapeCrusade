@@ -7,6 +7,7 @@ TilemapLoader = require "deps.AdvTileLoader.loader"
 -- lowercase because fuck it
 lume = require "deps.lume"
 vector = require "deps.vector"
+anim8 = require "deps.anim8"
 
 HC = require "deps.HC"
 

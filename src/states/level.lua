@@ -20,6 +20,19 @@ function level:enter()
   
   self:loadTilemap()
   self:generateColliders()
+  
+  self.greyscaleShader = love.graphics.newShader[[
+    extern number div;
+    vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords) 
+    {
+      vec4 pixel = Texel(texture, texture_coords);
+      number average = (pixel.r + pixel.b + pixel.g) / div;
+      pixel.r = average;
+      pixel.g = average;
+      pixel.b = average;
+      return pixel;
+    }
+  ]]
 end
 
 function level:loadTilemap()
@@ -38,7 +51,6 @@ function level:generateColliders()
           SCALED_TILE_SIZE, SCALED_TILE_SIZE)
       rect.type = "levelCollider"
       table.insert(self.colliders, rect)
-      -- TODO: generate a fixture so I can use World:rayCast
     end
   end
 end
@@ -60,6 +72,9 @@ end
 function level:draw()
   camera:set()
   
+  self.greyscaleShader:send("div", 3.0)
+  love.graphics.setShader(self.greyscaleShader) -- enable shader (TODO: only do this if required)
+  
   self.map:setDrawRange(0,0,1000000, 1000000)
   -- self.map:autoDrawRange(0, 0, 1, 0)
   self.map:draw()
@@ -75,6 +90,8 @@ function level:draw()
   end
     
   roomManager:draw()  
+  
+  love.graphics.setShader() -- unsets the shader
     
   camera:unset()
 end
