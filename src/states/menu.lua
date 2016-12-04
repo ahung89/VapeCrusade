@@ -16,11 +16,22 @@ end
 function menu:update(dt)
   if love.keyboard.isDown("up") then
     self.startSelected = true
+    -- go to frame for the two labels
   elseif love.keyboard.isDown("down") then
     self.startSelected = false
+    -- go to frame for the two labels
+  end
+  
+  if.love.keyboard.isDown("return") then
+    if self.startSelected then
+      Gamestate.switch("require src.states.intro")
+    else
+      love.event.quit()
+    end
   end
   
   self.cloudScaleMultiplier = 1 + math.sin(love.timer.getTime()) * self.cloudScaleMultiplierFlux
+  self.title_anim:update(dt)
 end
 
 function menu:draw()

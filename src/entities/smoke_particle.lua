@@ -15,11 +15,19 @@ function SmokeParticle:new(x, y, dir)
   self.ds = math.random(.005, .0075)
   self.radius = math.random(22, 33)
   self.scale = 1
-  self.collider = HC.circle(x, y, self.radius)
+  self.created = false
+end
+
+function SmokeParticle:create()
+  self.collider = HC.circle(self.x, self.y, self.radius)
   self.collider["parent"] = self
+  self.created = true
 end
 
 function SmokeParticle:update(dt)
+  if not self.created then
+    self.create()
+  end
   self:removeIfOffscreen()
   self.x = self.x + self.dx * dt
   self.y = self.y + self.dy * dt

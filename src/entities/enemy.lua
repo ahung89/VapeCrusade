@@ -71,15 +71,13 @@ function Enemy:getBullet(toPlayer)
 end
 
 function Enemy:makeHigh()
-  -- change animations
-  if self.highnessLevel == 0 then
-    self.room.highEnemies = self.room.highEnemies + 1
-  end
   self.highnessLevel = self.highnessLevel + 1
   
-  if self.highnessLevel >= 5 then
+  if self.highnessLevel >= 20 and not self.baked then
     self.baked = true
-    self.anim = self.dance
+    self.anim = self.dance    
+    self.room.highEnemies = self.room.highEnemies + 1
+
   end
 end
 

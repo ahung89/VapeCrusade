@@ -11,7 +11,7 @@ function intro:enter()
   self.strings = {
     "Hey hey hey, Mary-Jane... you\nare the one born with the \nVapor's Soul." ,
     "I am the Ganja Goddess, and you...", 
-    "You are the one destined to return thought\n and thinking to this world." ,
+    "You are the one destined to return \nthought and color to this world." ,
     "Take this vape. Free your mind\nwith its funky fumes, and \nthe rest will follow....."
   }
   self.currentStringIndex = 1
@@ -80,11 +80,7 @@ function intro:draw()
     love.graphics.setShader(self.trippyShader)
     love.graphics.draw(self.canvas)
     love.graphics.setShader()
-
   end
-
-  self.anim:draw(self.anim_image, love.graphics.getWidth() / 2 - 100, love.graphics.getHeight() / 2 - 200, 0, 3, 3)
-
 end
 
 function startIdleAnimation()
