@@ -2,7 +2,7 @@ SmokeMeter = Object:extend()
 
 function SmokeMeter:new()
   self.maxSmokeLevel = 10
-  self.deltaSmokiness = 8
+  self.deltaSmokiness = 12
   self.smokiness = 0
 end
 
@@ -21,4 +21,12 @@ function SmokeMeter:draw()
   love.graphics.setColor(0, 180, 0, 150)
   love.graphics.rectangle("fill", camera.x + 30, camera.y + 95 + 240 - smokeBarHeight, 30, smokeBarHeight)
   love.graphics.setColor(255, 255, 255)
+end
+
+function SmokeMeter:getSmokinessFraction()
+  return self.smokiness / self.maxSmokeLevel
+end
+
+function SmokeMeter:resetSmokiness()
+  self.smokiness = 0
 end
