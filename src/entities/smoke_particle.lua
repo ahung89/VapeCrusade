@@ -20,6 +20,7 @@ function SmokeParticle:new(x, y, dir)
 end
 
 function SmokeParticle:update(dt)
+  self:removeIfOffscreen()
   self.x = self.x + self.dx * dt
   self.y = self.y + self.dy * dt
   self.a = self.a - self.da * dt
@@ -36,6 +37,13 @@ function SmokeParticle:update(dt)
   else
     self.collider:scale(self.scale)
   end
+end
+
+function SmokeParticle:removeIfOffscreen()
+  if self.x < camera.x or self.x > camera.x + love.graphics.getWidth()
+    or self.y < camera.y or self.y > camera.y + love.graphics.getHeight() then
+      self.remove = true
+    end
 end
 
 function SmokeParticle:draw()
