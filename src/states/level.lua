@@ -26,10 +26,10 @@ function level:enter()
     vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords) 
     {
       vec4 pixel = Texel(texture, texture_coords);
-      number average = (pixel.r + pixel.b + pixel.g) / div;
-      pixel.r = average;
-      pixel.g = average;
-      pixel.b = average;
+      number average = (pixel.r + pixel.b + pixel.g) / 3;
+      pixel.r = mix(average, pixel.r, div);
+      pixel.g = mix(average, pixel.g, div);
+      pixel.b = mix(average, pixel.b, div);
       return pixel;
     }
   ]]
@@ -72,11 +72,10 @@ end
 function level:draw()
   camera:set()
   
-  self.greyscaleShader:send("div", 3.0)
+  self.greyscaleShader:send("div", roomManager.currentRoom:getHighModifier())
   love.graphics.setShader(self.greyscaleShader) -- enable shader (TODO: only do this if required)
   
   self.map:setDrawRange(0,0,1000000, 1000000)
-  -- self.map:autoDrawRange(0, 0, 1, 0)
   self.map:draw()
   
   player:draw(dt)

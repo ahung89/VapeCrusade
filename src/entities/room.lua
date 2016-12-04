@@ -5,6 +5,7 @@ Room = Object:extend()
 
 function Room:new(numEnemies, x, y, isHall, width, height)
   self.numEnemies = numEnemies
+  self.highEnemies = 0
   self.x = x * TILE_SIZE * GLOBAL_SCALE
   self.y = y * TILE_SIZE * GLOBAL_SCALE
   self.isHall = isHall
@@ -35,8 +36,11 @@ end
 function Room:placeEnemies()
   self.enemies = {}
   for i=1, self.numEnemies, 1 do
-    table.insert(self.enemies, Enemy(math.random(self.x + SCALED_TILE_SIZE, self.x + self.width - SCALED_TILE_SIZE),
-        math.random(self.y + SCALED_TILE_SIZE, self.y + self.height - SCALED_TILE_SIZE)))
+    local enemy = Enemy(math.random(self.x + SCALED_TILE_SIZE, self.x + self.width - SCALED_TILE_SIZE),
+        math.random(self.y + SCALED_TILE_SIZE, self.y + self.height - SCALED_TILE_SIZE))
+    enemy.room = self
+    table.insert(self.enemies, enemy)
+    
   end
 end
 
@@ -53,5 +57,8 @@ function Room:draw()
 end
 
 function Room:getHighModifier()
-  
+  if self.numEnemies == 0 then
+    return 1
+  end
+  return self.highEnemies / self.numEnemies
 end

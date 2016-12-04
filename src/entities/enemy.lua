@@ -57,6 +57,9 @@ end
 
 function Enemy:makeHigh()
   -- change animations
+  if self.highnessLevel == 0 then
+    self.room.highEnemies = self.room.highEnemies + 1
+  end
   self.highnessLevel = self.highnessLevel + 1
 end
 
