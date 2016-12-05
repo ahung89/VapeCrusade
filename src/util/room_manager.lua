@@ -41,7 +41,7 @@ function RoomManager:swapRoom(room)
   
   for k in pairs(self.currentRoom.enemies) do
     local enemy = self.currentRoom.enemies[k]
-    enemy.nextShotTime = love.timer.getTime() + math.random(.2, .7)
+    enemy.nextShotTime = love.timer.getTime() + math.random(.5, .9)
   end
   
   self:updateCamera(room)

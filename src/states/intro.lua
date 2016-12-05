@@ -37,6 +37,8 @@ function intro:enter()
   
   self.font = love.graphics.newFont("assets/fonts/DisposableDroidBB.ttf", 35)
   love.graphics.setFont(self.font)
+  
+  --Gamestate.switch(require "src.states.level")
 end
 
 function intro:update(dt)

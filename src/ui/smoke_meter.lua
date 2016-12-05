@@ -8,11 +8,12 @@ function SmokeMeter:new()
   self.wiggleDuration = .025
   self.atRiskOfCoughing = false
   self.coughTime = 0
-  self.timeToCough = 1.2
+  self.timeToCough = .55
   self.xWiggleOffset = 0
   self.yWiggleOffset = 0
   self.coughCooldownDuration = 1.5
   self.coughCooldownEnd = 0
+  Assets.audio.cough:setVolume(2)
 end
 
 function SmokeMeter:update(dt)
@@ -55,6 +56,8 @@ function SmokeMeter:wiggle()
 end
 
 function SmokeMeter:cough()
+  love.audio.stop(Assets.audio.cough)
+  love.audio.play(Assets.audio.cough)
   self.smokiness = 0
   self.atRiskOfCoughing = false
   self.coughCooldownEnd = love.timer.getTime() + self.coughCooldownDuration

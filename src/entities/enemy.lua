@@ -19,6 +19,12 @@ function Enemy:new(x, y)
   self.anim_image = Assets.henchmen
   self:setUpAnimations()
   self.audioSource = love.audio.newSource("assets/audio/fire.wav", "static")
+  self.audioSource:setVolume(.7)
+  
+  self.soundbites = {
+      Assets.audio.bro_far_out, Assets.audio.bro_pro_puff, Assets.audio.sexy_far_out,
+      Assets.audio.sexy_oh_yeah, Assets.audio.so_high, Assets.audio.meek_wow_colors
+  }
 end
 
 function Enemy:setUpAnimations()
@@ -59,7 +65,7 @@ function Enemy:fire()
   love.audio.stop(self.audioSource)
   love.audio.play(self.audioSource)
   
-  self.nextShotTime = love.timer.getTime() + math.random(.75, 1.25)
+  self.nextShotTime = love.timer.getTime() + math.random(.85, 1.25)
   local toPlayer = vector(player.x - self.x, player.y - self.y):normalized()
   table.insert(self.bullets, self:getBullet(toPlayer))
   
@@ -77,11 +83,12 @@ end
 function Enemy:makeHigh()
   self.highnessLevel = self.highnessLevel + 1
   
-  if self.highnessLevel >= 20 and not self.baked then
+  if self.highnessLevel >= 12 and not self.baked then
     self.baked = true
     self.anim = self.dance    
     self.room.highEnemies = self.room.highEnemies + 1
-
+    local soundIndex = math.random(1, table.getn(self.soundbites))
+    love.audio.play(self.soundbites[soundIndex])
   end
 end
 

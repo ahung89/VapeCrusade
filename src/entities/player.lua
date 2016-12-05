@@ -21,10 +21,16 @@ end
 function Player:setUpAnimations()
   local g = anim8.newGrid(36, 36, self.anim_image:getWidth(), self.anim_image:getHeight())
   self.idle = anim8.newAnimation(g(1, 1), .1)
+  self.idleSmoking = anim8.newAnimation(g(2, 10), .1)
   self.walkForward = anim8.newAnimation(g("1-7", 1), .1)
   self.walkBackward = anim8.newAnimation(g("1-7", 2), .1)
   self.walkLeft = anim8.newAnimation(g("1-7", 3), .1)
   self.walkRight = anim8.newAnimation(g("1-7", 4), .1)
+  
+  self.walkForwardSmoking = anim8.newAnimation(g("1-7", 10), .1)
+  self.walkLeftSmoking = anim8.newAnimation(g("1-7", 5), .1)
+  self.walkRightSmoking = anim8.newAnimation(g("1-7", 6), .1)
+  
   self.deathAnim = anim8.newAnimation(g("4-7", 9), .2, "pauseAtEnd")
   
   self.currentAnim = self.idle
@@ -40,25 +46,43 @@ function Player:update(dt)
   local yVelocity = 0
   local x1, y1, x2, y2 = self.collider:bbox()
   
+  local mouseIsDown = love.mouse.isDown(1)
+  
   self.smokeMeter:update(dt)
   
   if love.keyboard.isDown("a", "left") and not self:checkWallCollisions(x1 - COLLISION_CHECK_DISTANCE, y1) then
     xVelocity = -self.xSpeed
-    self.currentAnim = self.walkLeft
+    if mouseIsDown then
+      self.currentAnim = self.walkLeftSmoking
+    else
+      self.currentAnim = self.walkLeft
+    end
   elseif love.keyboard.isDown("d", "right") and not self:checkWallCollisions(x1 + COLLISION_CHECK_DISTANCE, y1) then
     xVelocity = self.xSpeed
-    self.currentAnim = self.walkRight
+    if mouseIsDown then
+      self.currentAnim = self.walkRightSmoking
+    else
+      self.currentAnim = self.walkRight
+    end
   end
   if love.keyboard.isDown("w", "up") and not self:checkWallCollisions(x1, y1 - COLLISION_CHECK_DISTANCE) then
     yVelocity = -self.ySpeed
     self.currentAnim = self.walkBackward
   elseif love.keyboard.isDown("s", "down") and not self:checkWallCollisions(x1, y1 + COLLISION_CHECK_DISTANCE) then
     yVelocity = self.ySpeed
-    self.currentAnim = self.walkForward
+    if mouseIsDown then
+      self.currentAnim = self.walkForwardSmoking
+    else
+      self.currentAnim = self.walkForward
+    end
   end
   
   if xVelocity == 0 and yVelocity == 0 then
-    self.currentAnim = self.idle
+    if mouseIsDown then
+      self.currentAnim = self.idleSmoking
+    else
+      self.currentAnim = self.idle
+    end
   end
   
   self.x = self.x + xVelocity * dt
