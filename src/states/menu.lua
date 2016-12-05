@@ -13,8 +13,8 @@ function menu:enter()
   self.cloud_image = Assets.cloud_pointer
   self:setupAnimations()
   
-  Assets.audio.music:setLooping(true)
-  love.audio.play(Assets.audio.music)
+  Assets.audio.menu_song:setLooping(true)
+  love.audio.play(Assets.audio.menu_song)
 end
 
 function menu:update(dt)
@@ -35,6 +35,7 @@ function menu:update(dt)
   if love.keyboard.isDown("return") then
     if self.startSelected then
       love.audio.play(Assets.audio.button_click)
+      love.audio.stop(Assets.audio.menu_song)
       Gamestate.switch(require "src.states.intro")
     else
       love.audio.play(Assets.audio.button_click)

@@ -1,6 +1,9 @@
 intro = {}
 
 function intro:enter()
+  Assets.audio.music:setLooping(true)
+  love.audio.play(Assets.audio.music)
+  
   self.anim_image = Assets.ganja_goddess
   
   local g = anim8.newGrid(64, 64, self.anim_image:getWidth(), self.anim_image:getHeight())
@@ -43,11 +46,16 @@ end
 
 function intro:update(dt)
   self.anim:update(dt)
+  if self.idleAnimationStarted and not self.awaitingInput then
+    love.audio.play(Assets.audio.talking)
+  end
+  
   if self.awaitingInput and love.keyboard.isDown("return") then
     self.currentStringIndex = self.currentStringIndex + 1
     self.currentStringOffset = 1
     self.awaitingInput = false
     if self.currentStringIndex > table.getn(self.strings) then
+      love.audio.stop(Assets.audio.talking)
       Gamestate.switch(require "src.states.level")
     end
   end
@@ -70,6 +78,7 @@ function intro:draw()
   
     if self.currentStringOffset == currString:len() then
       self.awaitingInput = true
+      love.audio.stop(Assets.audio.talking)
     end
   
     love.graphics.setCanvas(self.canvas)

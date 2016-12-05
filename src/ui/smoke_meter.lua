@@ -71,7 +71,7 @@ function SmokeMeter:draw()
     love.graphics.setColor(0, 0, 0, 150)
   end
   love.graphics.rectangle("fill", camera.x + 25 + self.xWiggleOffset, camera.y + 90 + self.yWiggleOffset, 40, 250)
-  love.graphics.setColor(0, 180, 0, 150)
+  love.graphics.setColor(192, 192, 192, 150)
   love.graphics.rectangle("fill", camera.x + 30 + self.xWiggleOffset, camera.y + 95 + 240 - smokeBarHeight + self.yWiggleOffset,
     30, smokeBarHeight)
   love.graphics.setColor(255, 255, 255)

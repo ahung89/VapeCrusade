@@ -3,7 +3,7 @@ Player = Object:extend()
 function Player:new()
   self.x = 0
   self.y = 0
-  self.health = 5
+  self.health = 7
   self.alive = true
   self.xSpeed = 300
   self.ySpeed = 300
