@@ -1,6 +1,7 @@
 SmokeParticle = Object:extend()
 
 function SmokeParticle:new(x, y, dir)
+  -- print(x, y, dir)
   self.x = x
   self.y = y
   self.a = 1
@@ -16,6 +17,7 @@ function SmokeParticle:new(x, y, dir)
   self.radius = math.random(22, 33)
   self.scale = 1
   self.created = false
+  self.remove = false
 end
 
 function SmokeParticle:create()

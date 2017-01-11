@@ -1,4 +1,5 @@
 require "src.entities.smoke_particle"
+require "src.util.object_pooler"
 
 Vape = Object:extend()
 
@@ -15,6 +16,7 @@ function Vape:new()
   self.mostRecentFraction = 1
   
   self.endSmokeTime = 0
+  self.particlePool = ObjectPooler(5, 100, 10, SmokeParticle, 0, 0, vector(0, 0))
 end
 
 function Vape:fire()
@@ -52,7 +54,8 @@ function Vape:update(dt)
   if player.alive and self.emittingSmoke and love.timer.getTime() > self.nextParticleTime then
     local playerScreenPos = vector(player.x - camera.x, player.y - camera.y)
     local dir = vector(love.mouse.getX() - playerScreenPos.x, love.mouse.getY() - playerScreenPos.y):normalized()
-    local smokeParticle = SmokeParticle(self.x, self.y, dir)
+    local smokeParticle = self.particlePool:get()
+    smokeParticle:new(player.x, player.y, dir)
     table.insert(self.particles, smokeParticle)
     smokeParticle.radius = smokeParticle.radius * self.mostRecentFraction
     smokeParticle.da = smokeParticle.da * (1 + (1 - self.mostRecentFraction))
@@ -69,6 +72,7 @@ function Vape:update(dt)
   while i <= table.getn(self.particles) do
     self.particles[i]:update(dt)
     if self.particles[i].remove then
+      self.particlePool:recycle(self.particles[i])
       table.remove(self.particles, i)
     else
       i = i + 1
